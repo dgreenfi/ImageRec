@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var base='http://127.0.0.1:5000/submit?'
+        var asin='{{asin}}'
+        function like(theUrl)
+            {
+                var xmlHttp = new XMLHttpRequest();
+                var user=String(document.getElementById("term").value);
+                var urlwargs=theUrl.concat("user=",user,"&like=1&","asin=",asin);
+                //window.alert(urlwargs);
+                getHttp(urlwargs);
+                refreshPage();
+            }
+        function dislike(theUrl)
+            {
+                var xmlHttp = new XMLHttpRequest();
+                var user=String(document.getElementById("term").value);
+                var urlwargs=theUrl.concat("user=",user,"&like=0&","asin=",asin);
+                getHttp(urlwargs);
+                refreshPage();
+
+            }
+        function getHttp(theUrl)
+            {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+                xmlHttp.send( null );
+                return xmlHttp.responseText;
+            }
+        function refreshPage(){
+            window.location.reload();
+        }
+    </script>
+</head>
+<body align="center">
+<img src={{string}}>
+    <br>
+    <button onclick="like('http://127.0.0.1:5000/submit?')">Like</button>
+    <button onclick="dislike('http://127.0.0.1:5000/submit?')">Dislike</button>
+    <br>
+    <br>
+    <br>
+    You Must Select User
+    <form id='termbox' name='term' action='' method='get'>
+        <select id='term' name='query' onchange='' >
+          <option>Josh</option>
+          <option>Dave</option>
+          <option>Erin</option>
+          <option>Priya</option>
+        </select>
+    </form>
+</body>
+</html>
