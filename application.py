@@ -53,7 +53,12 @@ def choices():
     links=[data[x]['url'] for x in likes]
 
     return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
-
+@application.route('/suggestions')
+def suggestions():
+    args=request.args
+    if 'user' not in args:
+        return redirect("suggestions?user="+USERS[0], code=302)
+    return render_template('suggestions.html',users=USERS,activeuser=args['user'])
 
 @application.route('/submit')
 def submit():
