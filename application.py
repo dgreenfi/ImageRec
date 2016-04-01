@@ -39,7 +39,10 @@ def load_data(path):
 def choices():
     conn = redis.Redis(db=1)
     keys = conn.keys()
-    values = conn.mget(keys)
+    try:
+        values = conn.mget(keys)
+    except:
+        return "No Choices"
     tuples=zip(keys, values)
     print tuples
     return json.dumps(tuples)
