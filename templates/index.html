@@ -41,18 +41,34 @@
         }
     </script>
     <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">What are you Aboot?</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="suggestions">User Suggestions</a></li>
-      <li><a href="userchoices">View Choices</a></li>
-
-    </ul>
-  </div>
-</nav>
+         <div class="container-fluid">
+             <div class="navbar-header">
+            <a class="navbar-brand" href="#">What are you Aboot?</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="suggestions">User Suggestions</a></li>
+            <li class="active"><a href="userchoices">View Choices</a></li>
+                <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Select User <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" id="userdrop">
+            
+                <script>
+                var users = {{users|tojson}};
+                var text = "";
+                var i;
+                for (i = 0; i < users.length; i++) {
+                    text += "<li><a href=?user="+users[i]+">"+users[i]+"</li>";
+                }
+                document.getElementById("userdrop").innerHTML = text;
+                </script>
+            </ul>
+            <li class="active" float="right"><a href="suggestions">{{activeuser}}</a></li>
+        </ul>
+        </div>
+    </nav>
 </head>
 <body align="center">
 
