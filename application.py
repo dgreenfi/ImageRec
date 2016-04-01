@@ -14,9 +14,8 @@ def homepage():
     data=load_data('./data/boots_aws.csv')
     testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
     randimage=get_image(testfolder)
-    print type (randimage)
+
     impath=data[randimage]
-    print impath
     return render_template('index.html',string=impath['url'],asin=randimage)
 
 
@@ -37,6 +36,7 @@ def load_data(path):
 
 @application.route('/userchoices')
 def choices():
+    data=load_data('./data/boots_aws.csv')
     conn = redis.Redis(db=1)
     keys = conn.keys()
     try:
@@ -44,8 +44,9 @@ def choices():
     except:
         return "No Choices"
     tuples=zip(keys, values)
-    print tuples
-    return json.dumps(tuples)
+    links=[data[x]['url'] for x in keys]
+    return render_template('choices.html',vals=links)
+
 
 @application.route('/submit')
 def submit():
