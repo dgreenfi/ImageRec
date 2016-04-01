@@ -1,3 +1,4 @@
 # ImageRec
-# Needs Local csv in /data/csvfile
-# Needs redis-server running
+## Requirements for running locally
+*Needs Local csv in /data/csvfile
+*Needs redis-server running
