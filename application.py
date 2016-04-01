@@ -12,12 +12,14 @@ application = Flask(__name__)
 def homepage():
     #requires local version of csv and images
     data=load_data('./data/boots_aws.csv')
-    testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
-    randimage=get_image(testfolder)
-    print type (randimage)
-    impath=data[randimage]
+    #testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
+    #randimage=get_image(testfolder)
+    rand = random.choice(list(data.keys()))
+    impath = data[rand]['url']
+    #print type (randimage)
+    #impath=data[randimage]
     print impath
-    return render_template('index.html',string=impath['url'],asin=randimage)
+    return render_template('index.html',string=impath)
 
 
 def get_image(path):
