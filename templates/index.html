@@ -14,8 +14,7 @@
         function like(theUrl)
             {
                 var xmlHttp = new XMLHttpRequest();
-                var user=String(document.getElementById("term").value);
-                var urlwargs=theUrl.concat("user=",user,"&like=1&","asin=",asin);
+                var urlwargs=theUrl.concat("&like=1&","asin=",asin);
                 //window.alert(urlwargs);
                 getHttp(urlwargs);
                 refreshPage();
@@ -23,8 +22,7 @@
         function dislike(theUrl)
             {
                 var xmlHttp = new XMLHttpRequest();
-                var user=String(document.getElementById("term").value);
-                var urlwargs=theUrl.concat("user=",user,"&like=0&","asin=",asin);
+                var urlwargs=theUrl.concat("&like=0&","asin=",asin);
                 getHttp(urlwargs);
                 refreshPage();
 
@@ -46,15 +44,15 @@
             <a class="navbar-brand" href="#">What are you Aboot?</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/">Home</a></li>
             <li><a href="suggestions">User Suggestions</a></li>
-            <li class="active"><a href="userchoices">View Choices</a></li>
+            <li><a href="userchoices">View Choices</a></li>
                 <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Select User <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" id="userdrop">
-            
+
                 <script>
                 var users = {{users|tojson}};
                 var text = "";
@@ -75,19 +73,10 @@
 
 <img src={{string}}>
     <br>
-    <button onclick="like('http://127.0.0.1:5000/submit?')">Like</button>
-    <button onclick="dislike('http://127.0.0.1:5000/submit?')">Dislike</button>
+    <button onclick="like('http://127.0.0.1:5000/submit?user={{activeuser}}')">Like</button>
+    <button onclick="dislike('http://127.0.0.1:5000/submit?user={{activeuser}}')">Dislike</button>
     <br>
     <br>
-    <br>
-    You Must Select User
-    <form id='termbox' name='term' action='' method='get'>
-        <select id='term' name='query' onchange='' >
-          <option>Josh</option>
-          <option>Dave</option>
-          <option>Erin</option>
-          <option>Priya</option>
-        </select>
-    </form>
+
 </body>
 </html>
