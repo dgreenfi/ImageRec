@@ -19,8 +19,8 @@ def homepage():
     if 'user' not in args:
         return redirect("?user="+USERS[0], code=302)
     rand = random.choice(list(data.keys()))
-    impath = data[rand]['url']
-    return render_template('index.html',string=impath)
+    impath = data[rand]
+    return render_template('index.html',string=impath['url'],asin=impath['url'],users=USERS,activeuser=args['user'])
 
 
 def get_image(path):
@@ -63,11 +63,11 @@ def submit():
     args=request.args
     if float(args['like'])==0:
         conn = redis.Redis(db=0)
-        conn.sadd(args['user'],args['string'])
+        conn.sadd(args['user'],args['asnin'])
 
     if float(args['like'])==1:
         conn = redis.Redis(db=1)
-        conn.sadd(args['user'],args['string'])
+        conn.sadd(args['user'],args['asin'])
 
 
     return json.dumps({"stored":True})
