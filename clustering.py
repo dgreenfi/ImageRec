@@ -15,8 +15,14 @@ def load_data(path):
 
 def create_html(links,fname):
     file=open(fname,"w+")
+    file.write("{% extends 'basetemp.html' %}\n \
+        {% block head %}\n \
+        {{ super() }}\n \
+        {% endblock %}\n \
+        {% block content %}\n")
     for item in links:
         file.write("<img src="+item+" height='100' width='100'>\n")
+    file.write("{% endblock %}\n")
 
 def output_clusters(clusters,fname):
     file=open(fname,"w+")
@@ -25,7 +31,7 @@ def output_clusters(clusters,fname):
 
 def main():
     f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
-    #f ='/Users/davidgreenfield/Downloads/features_f500.csv'
+    f ='/Users/davidgreenfield/Downloads/features_f500.csv'
     cols=range(1,4096)
     feats =np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=(cols))
     asins = np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=([0]),dtype=str)
@@ -41,7 +47,7 @@ def main():
         ids=asins[groups[i]]
         clusters.append(ids)
         links=[data[x]['url'] for x in ids]
-        create_html(links,"groups/group"+str(i)+".html")
+        create_html(links,"templates/groups/group"+str(i)+".html")
 
     output_clusters(clusters,"outputs/clusters.csv")
 
