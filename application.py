@@ -53,6 +53,18 @@ def choices():
     links=[data[x]['url'] for x in likes]
 
     return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
+
+@application.route('/groupview')
+def groupview():
+    args=request.args
+    if 'user' not in args:
+        return redirect("groupview?user="+USERS[0]+"&groupnum=1", code=302)
+    if 'groupnum' not in args:
+        return redirect("groupview?user="+USERS[0]+"&groupnum=1", code=302)
+    num=args['groupnum']
+    groups=["Group "+ str(x) for x in range(1,25)]
+    return render_template('./groups/group'+str(num)+'.html',users=USERS,activeuser=args['user'],showgroups="Yes",groups=groups)
+
 @application.route('/suggestions')
 def suggestions():
     args=request.args

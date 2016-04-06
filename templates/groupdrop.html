@@ -1,0 +1,16 @@
+<li>
+<a class="drop down-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Select Group <span class="caret"></span>
+</a>
+<ul class="dropdown-menu" id="groupdrop">
+                <script>
+                var groups = {{groups|tojson}};
+                var text = "";
+                var i;
+                for (i = 0; i < groups.length; i++) {
+                    text += "<li><a href=?user="+"{{ activeuser }}"+"&groupnum="+(i+1)+">"+groups[i]+"</li>";
+                }
+                document.getElementById("groupdrop").innerHTML = text;
+                </script>
+</ul>
+    </li>
