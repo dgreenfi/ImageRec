@@ -33,7 +33,11 @@
                 document.getElementById("userdrop").innerHTML = text;
                 </script>
             </ul>
+                    {% if showgroups == "Yes" %}
+            {% include 'groupdrop.html' %}
+            {% endif %}
             <li class="active" float="right"><a href="">{{activeuser}}</a></li>
+
         </ul>
         </div>
     </nav>
