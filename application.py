@@ -18,9 +18,11 @@ def homepage():
     args=request.args
     if 'user' not in args:
         return redirect("?user="+USERS[0], code=302)
+    testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
     rand = random.choice(list(data.keys()))
-    impath = data[rand]
-    return render_template('index.html',string=impath['url'],asin=impath['url'],users=USERS,activeuser=args['user'])
+    impath=data[rand]
+
+    return render_template('index.html',string=impath['url'],asin=rand,users=USERS,activeuser=args['user'])
 
 
 def get_image(path):
@@ -47,10 +49,22 @@ def choices():
     conn = redis.Redis(db=1)
 
     likes = conn.smembers(args['user'])
-
+    print likes
     links=[data[x]['url'] for x in likes]
 
     return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
+
+@application.route('/groupview')
+def groupview():
+    args=request.args
+    if 'user' not in args:
+        return redirect("groupview?user="+USERS[0]+"&groupnum=1", code=302)
+    if 'groupnum' not in args:
+        return redirect("groupview?user="+USERS[0]+"&groupnum=1", code=302)
+    num=args['groupnum']
+    groups=["Group "+ str(x) for x in range(1,25)]
+    return render_template('./groups/group'+str(num)+'.html',users=USERS,activeuser=args['user'],showgroups="Yes",groups=groups)
+
 @application.route('/suggestions')
 def suggestions():
     args=request.args
