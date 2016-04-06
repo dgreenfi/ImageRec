@@ -1,9 +1,8 @@
-
+<li>
 <a class="drop down-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Select Group <span class="caret"></span>
-            </a>
+</a>
 <ul class="dropdown-menu" id="groupdrop">
-
                 <script>
                 var groups = {{groups|tojson}};
                 var text = "";
@@ -14,3 +13,4 @@
                 document.getElementById("groupdrop").innerHTML = text;
                 </script>
 </ul>
+    </li>
