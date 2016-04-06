@@ -3,6 +3,7 @@ from pandas import *
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn import cluster
+from sklearn import mixture
 import csv
 
 def load_data(path):
@@ -39,10 +40,14 @@ def main():
     k_means=cluster.KMeans(n_clusters=cluster_num)
     k_means.fit(feats)
     clusters=[]
+
+
+
     groups={}
 
 
     data=load_data('./data/boots_aws.csv')
+
     for i in range(0,cluster_num):
         groups[i]=np.where(k_means.labels_==i)
         ids=asins[groups[i]]
