@@ -15,25 +15,13 @@ USERS=['Erin','Dave','Josh','Priya']
 def homepage():
     #requires local version of csv and images
     data=load_data('./data/boots_aws.csv')
-<<<<<<< HEAD
-    #testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
-    #randimage=get_image(testfolder)
-    rand = random.choice(list(data.keys()))
-    impath = data[rand]['url']
-    #print type (randimage)
-    #impath=data[randimage]
-    print impath
-    return render_template('index.html',string=impath)
-=======
     args=request.args
     if 'user' not in args:
         return redirect("?user="+USERS[0], code=302)
     testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
-    randimage=get_image(testfolder)
-
-    impath=data[randimage]
-    return render_template('index.html',string=impath['url'],asin=randimage,users=USERS,activeuser=args['user'])
->>>>>>> 96f72fdd2b241723c47255ebd6ec2cc8900c3ade
+    rand = random.choice(list(data.keys()))
+    impath=data[rand]
+    return render_template('index.html',string=impath['url'],asin=impath['url'],users=USERS,activeuser=args['user'])
 
 
 def get_image(path):
