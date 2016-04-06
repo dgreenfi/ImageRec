@@ -15,8 +15,14 @@ def load_data(path):
 
 def create_html(links,fname):
     file=open(fname,"w+")
+    file.write("{% extends 'basetemp.html' %}\n \
+        {% block head %}\n \
+        {{ super() }}\n \
+        {% endblock %}\n \
+        {% block content %}\n")
     for item in links:
         file.write("<img src="+item+" height='100' width='100'>\n")
+    file.write("{% endblock %}\n")
 
 def output_clusters(clusters,fname):
     file=open(fname,"w+")
@@ -29,19 +35,20 @@ def main():
     cols=range(1,4096)
     feats =np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=(cols))
     asins = np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=([0]),dtype=str)
-
-    k_means=cluster.KMeans(n_clusters=20)
+    cluster_num=25
+    k_means=cluster.KMeans(n_clusters=cluster_num)
     k_means.fit(feats)
-
-    groups={}
     clusters=[]
+    groups={}
+
+
     data=load_data('./data/boots_aws.csv')
-    for i in range(0,10):
+    for i in range(0,cluster_num):
         groups[i]=np.where(k_means.labels_==i)
         ids=asins[groups[i]]
         clusters.append(ids)
         links=[data[x]['url'] for x in ids]
-        create_html(links,"groups/group"+str(i)+".html")
+        create_html(links,"templates/groups/group"+str(i)+".html")
 
     output_clusters(clusters,"outputs/clusters.csv")
 
