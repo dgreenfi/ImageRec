@@ -10,6 +10,8 @@ import json
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
+LABS=['Fuzzy','Leather','Cowboy','Brown','Black','Red','Blue','Shiny',\
+      'Cowboy','Checkered','Ruffled','Bootie','Pink','Thick Outsole']
 
 @application.route('/')
 def homepage():
@@ -72,6 +74,19 @@ def suggestions():
         return redirect("suggestions?user="+USERS[0], code=302)
     return render_template('suggestions.html',users=USERS,activeuser=args['user'])
 
+
+@application.route('/labeler')
+def labeler():
+    args=request.args
+    if 'user' not in args:
+        return redirect("labeler?user="+USERS[0], code=302)
+
+    data=load_data('./data/boots_aws.csv')
+    rand = random.choice(list(data.keys()))
+    impath=data[rand]
+
+    return render_template('labeler.html',users=USERS,activeuser=args['user'],string=impath['url'],asin=rand,labels=LABS)
+
 @application.route('/submit')
 def submit():
     args=request.args
@@ -85,6 +100,16 @@ def submit():
 
 
     return json.dumps({"stored":True})
+
+@application.route('/submitLabel')
+def submit_label():
+    args=request.args
+    label=args['label']
+    asin=args['asin']
+    f=open('./data/labels.txt','a+')
+    f.write('{"'+asin+'":"'+label+'"}\n')
+    return json.dumps({"stored":True})
+
 
 if __name__ == '__main__':
 

@@ -1,0 +1,15 @@
+{% extends 'basetemp.html' %}
+         {% block head %}
+         {{ super() }}
+         {% endblock %}
+         {% block content %}
+             <img src={{string}}>
+            <br>
+             {% for lab in labels %}
+                <button onclick="subLabel('http://127.0.0.1:5000/submitLabel?user={{activeuser}}&label={{ lab }}')">{{ lab}}</button>
+
+             {% endfor %}
+
+            <br>
+            <br>
+         {% endblock %}

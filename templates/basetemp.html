@@ -7,7 +7,27 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+    <script>
+            function refreshPage(){
+            window.location.reload();
+        }
+             function getHttp(theUrl)
+            {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+                xmlHttp.send( null );
+                return xmlHttp.responseText;
+            }
+        function subLabel(theUrl)
+                {
+                    var asin='{{asin}}'
+                    var xmlHttp = new XMLHttpRequest();
+                    var urlwargs=theUrl.concat("&asin=",asin);
+                    //window.alert(urlwargs);
+                    getHttp(urlwargs);
+                    refreshPage();
+                }
+    </script>
     <nav class="navbar navbar-default">
          <div class="container-fluid">
              <div class="navbar-header">
@@ -17,7 +37,8 @@
             <li><a href="/">Home</a></li>
             <li><a href="suggestions">User Suggestions</a></li>
             <li><a href="userchoices">View Choices</a></li>
-            <li class="active"><a href="groupview">View Groups</a></li>
+            <li><a href="groupview">View Groups</a></li>
+            <li><a href="labeler">Label Samples</a></li>
             <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 Select User <span class="caret"></span>
@@ -43,7 +64,7 @@
         </div>
     </nav>
 </head>
-<body>
+<body align="center">
     {% block content %}
     {% endblock  %}
 </body>
