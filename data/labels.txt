@@ -1,2 +1,89 @@
 {"B00B7AG0KG":"Black"}
 {"B00FN7NFI4":"Fuzzy"}
+{"B002U4QA44":"Hiking"}
+{"B00GZ65KE4":"Black"}
+{"B00ACBADAY":"Black"}
+{"B005FSMEZ6":"Ruffled"}
+{"B008003KOK":"Zebra"}
+{"B004FPPYD4":"Ruffled"}
+{"B00EZ8DEZ6":"Black"}
+{"B00EOMBLXA":"Black"}
+{"B002VL61BS":"Hiking"}
+{"B006C1QW94":"Spotted"}
+{"B00AOAZLA0":"Spotted"}
+{"B00801YYSU":"Suede"}
+{"B0073XDVE4":"High Heel"}
+{"B0051S6L7W":"Cowboy"}
+{"B00GYA7KJE":"Black"}
+{"B002LKA75U":"Hiking"}
+{"B009IFA896":"High Heel"}
+{"B00905KJXE":"Brown"}
+{"B006XIP3W8":"Black"}
+{"B00DY73J5O":"High Heel"}
+{"B00FUQQVF2":"Leather"}
+{"B00FFKXRF0":"Black"}
+{"B00BMJDOCY":"Cowboy"}
+{"B00H1S56RG":"Blue"}
+{"B000QE9I30":"Black"}
+{"B00FG9UU1O":"Suede"}
+{"B009QWDG4A":"High Heel"}
+{"B008CN3E14":"Ruffled"}
+{"B005O313RW":"High Heel"}
+{"B00ED2PW7W":"Ruffled"}
+{"B008D6561Q":"Spotted"}
+{"B005HQ04QM":"Leather"}
+{"B00DQX6V88":"Knee High"}
+{"B00E6I9QWA":"Red"}
+{"B00DZQI03U":"Brown"}
+{"B009SNXP6Q":"Clasps"}
+{"B006WO7SRG":"Rain Boots"}
+{"B008VX2QKU":"Leather"}
+{"B00EIRYEVC":"Leather"}
+{"B00AVIQOCO":"Clasps"}
+{"B0059BO6ZU":"Crazy Pattern"}
+{"B007JNGUX2":"Hiking"}
+{"B00G9YL8JS":"Crazy Pattern"}
+{"B0047BYR0W":"Rain Boots"}
+{"B009AED8OW":"Suede"}
+{"B00E7NEEWG":"Blue"}
+{"B00G9CFU30":"Bootie"}
+{"B00J5Y4L20":"Spotted"}
+{"B00579MKVQ":"Cowboy"}
+{"B005CK2E3E":"Hiking"}
+{"B007JNH8WE":"Cowboy"}
+{"B000BLABUW":"Rain Boots"}
+{"B00EFD6GOW":"Clasps"}
+{"B005HUS1ZO":"Clasps"}
+{"B00FAAJRRC":"Ruffled"}
+{"B00EKNKBPC":"Suede"}
+{"B00G1V4VUM":"Clasps"}
+{"B009MMEICS":"High Heel"}
+{"B00F2NJPAG":"Clasps"}
+{"B00DOCKJNO":"Crazy Pattern"}
+{"B00AY0DT1I":"Black"}
+{"B00FC1WBAY":"Black"}
+{"B00EKUUTYI":"Glossy"}
+{"B003CKKP2S":"Black"}
+{"B00F2RQEGU":"Pink"}
+{"B005LQ6WU0":"Black"}
+{"B000NJQK02":"Brown"}
+{"B002WN2T1G":"Rain Boots"}
+{"B00GCIEMKS":"Bootie"}
+{"B00C5146SO":"Glossy"}
+{"B005T4ES7S":"Cowboy"}
+{"B008RM5UWG":"Hiking"}
+{"B005LXFZBU":"Crazy Pattern"}
+{"B00AW6IC16":"Clasps"}
+{"B00BMFUA8E":"Rain Boots"}
+{"B00AWS43FS":"Knee High"}
+{"B00AV6VB0Q":"High Heel"}
+{"B00AVA1SMS":"Brown"}
+{"B006GAMI2G":"Glossy"}
+{"B00E5PBL18":"Leather"}
+{"B00BFWXBSU":"Glossy"}
+{"B0021ZDNF6":"Thick Outsole"}
+{"B00EOI5SQA":"High Heel"}
+{"B0063UK5PQ":"Crazy Pattern"}
+{"B00AV6VAN4":"Thick Outsole"}
+{"B008N7GPCE":"Zebra"}
+{"B00FAAJVUK":"Red"}

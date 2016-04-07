@@ -1,0 +1,30 @@
+B0058EQLS8Clasps,Cowboy,Zebra
+B008RKF84SCowboy,Crazy Pattern,Zebra
+B00135Y1MEClasps,Cowboy,Zebra
+B007IR3NMUClasps,Crazy Pattern,Zebra
+B005SQ5HX6Clasps,Cowboy,Zebra
+B00F2JKA2MCowboy,Crazy Pattern,Zebra
+B008PQL186Bootie,Clasps,Zebra
+B009F7PEK0Clasps,Cowboy,Thick Outsole
+B00FHCH5UEBrown,Cowboy,Zebra
+B00F2E81IWCowboy,Crazy Pattern,Zebra
+B002VBWCV6Brown,Fuzzy,Zebra
+B007MJAKQGCowboy,Fuzzy,Zebra
+B00D3A75RABrown,Cowboy,Zebra
+B0059BO6ZUCowboy,Crazy Pattern,Thick Outsole
+B009AED6AIBootie,Cowboy,Zebra
+B001FRA49YBrown,Cowboy,Zebra
+B003WL6YO0Brown,Cowboy,Zebra
+B005HUR5JMBrown,Fuzzy,Zebra
+B00D8VL6Y2Brown,Fuzzy,Thick Outsole
+B00G9A4WQICowboy,Crazy Pattern,Zebra
+B00C8HCRZEBrown,Fuzzy,Zebra
+B0018OKG38Clasps,Fuzzy,Zebra
+B0059686CYBrown,Crazy Pattern,Zebra
+B00D3NFTIYBrown,Cowboy,Zebra
+B005HUQVXSBrown,Crazy Pattern,Zebra
+B005HUR4RAClasps,Crazy Pattern,Zebra
+B00EWHYGMKCowboy,Fuzzy,Zebra
+B00EX0JD9MBootie,Clasps,Zebra
+B00EMA0PAOBrown,Crazy Pattern,Zebra
+B00EFD5L6GBootie,Cowboy,Thick Outsole

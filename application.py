@@ -10,8 +10,9 @@ import json
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
-LABS=['Fuzzy','Leather','Cowboy','Brown','Black','Red','Blue','Shiny',\
-      'Cowboy','Checkered','Ruffled','Bootie','Pink','Thick Outsole']
+LABS=['Fuzzy','Leather','Suede','Cowboy','Brown','Black','Red','Blue','Pink','Grey','Shiny',\
+      'Cowboy','Checkered','Ruffled','Bootie','Thick Outsole','Hiking','Spotted',\
+      'Zebra','Clasps','High Heel','Glossy',"Rain Boots","Sneaker Boot","Crazy Color","Crazy Pattern","Knee High","Moon Boot"]
 
 @application.route('/')
 def homepage():
