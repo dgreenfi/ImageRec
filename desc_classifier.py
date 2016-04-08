@@ -6,9 +6,9 @@ import json
 def top_labels(labels,probabilities,n):
     ind=range(0,probabilities.size)
     #sort by index
-    order=np.array([x for (y,x) in sorted(zip(probabilities[0],ind))])
+    order=np.array([x for (y,x) in sorted(zip(probabilities[0],ind),reverse=True)])
     #return labels where the index
-    return labels[np.where(order<n)]
+    return labels[order[0:n]]
 
 
 
@@ -56,15 +56,16 @@ def main():
     clf.decision_function_shape = "ovr"
     outfile=open('./data/pred_labels.txt','a')
 
-    for x in range(10,40):
+    for x in range(10,100):
         dec = clf.decision_function([feats[x]])
 
         predicted= clf.predict([feats[x]])
         labels= clf.classes_
-        outfile.write( asins[x])
+        outfile.write( asins[x]+ " ")
         outfile.write(",".join(top_labels(labels,dec,3))+'\n')
+        print predicted
         print dec
-    print labels
+
 
 
 
