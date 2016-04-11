@@ -110,9 +110,8 @@ def metrics(clusters,sub_mat):
 
 if __name__ == "__main__":
 	data = pd.read_csv('./data/boots_aws_metadata.csv',index_col='asin')
-	#del data['#']
 	CE = cluster_eval(data)
 	sub_mat = CE.calc_each('also_viewed')
-	print(sub_mat)
+	results = metrics(clusters,sub_mat)
 
 
