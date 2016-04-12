@@ -46,12 +46,9 @@ def choices():
     if 'user' not in args:
         return redirect("userchoices?user="+USERS[0], code=302)
     conn = redis.Redis(db=1)
-
     likes = conn.smembers(args['user'])
 
-    links=[data[x]['url'] for x in likes]
-
-    return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
+    return render_template('choices.html',vals=list(likes),users=USERS,activeuser=args['user'])
 
 @application.route('/groupview')
 def groupview():
