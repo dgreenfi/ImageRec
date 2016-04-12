@@ -21,7 +21,8 @@ def homepage():
     testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
     rand = random.choice(list(data.keys()))
     impath=data[rand]
-    return render_template('index.html',string=impath['url'],asin=impath['url'],users=USERS,activeuser=args['user'])
+
+    return render_template('index.html',string=impath['url'],asin=rand,users=USERS,activeuser=args['user'])
 
 
 def get_image(path):
@@ -48,7 +49,10 @@ def choices():
     conn = redis.Redis(db=1)
     likes = conn.smembers(args['user'])
 
-    return render_template('choices.html',vals=list(likes),users=USERS,activeuser=args['user'])
+    links=[data[x]['url'] for x in likes]
+
+    return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
+
 
 @application.route('/groupview')
 def groupview():
