@@ -6,6 +6,7 @@ import random
 
 theta = (0.25, 0.35)
 
+
 def is_conversion(title):
     if random.random() < theta[title]:
         return True
@@ -16,27 +17,19 @@ conversions = [0,0]
 trials = [0,0]
 
 N = 100000
-trials = zeros(shape=(N,2))
-successes = zeros(shape=(N,2))
+cluster_no = len(clusters)
+trials = zeros(shape=(N,cluster_no))
+successes = zeros(shape=(N,cluster_no))
 
-bb = BetaBandit()
+
+bb = BetaBandit(num_options=cluster_no,prior=prior)
 for i in range(N):
     choice = bb.get_recommendation()
-    print(choice)
-    print('trials[choice]'+str(trials[choice]))
     trials[choice] = trials[choice]+1
-    print('trials[choice]'+str(trials[choice]))
-    print(trials)
     conv = is_conversion(choice)
-    print(conv)
-    print("bb.trials"+str(bb.trials))
     bb.add_result(choice, conv)
-
-    print("bb.trials"+str(bb.trials))
-    print(i)
     trials[i] = bb.trials
     successes[i] = bb.successes
-    print(trials[:10,:])
 
 from pylab import *
 subplot(211)

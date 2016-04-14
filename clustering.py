@@ -32,8 +32,8 @@ def output_clusters(clusters,fname):
         file.write(','.join(item)+'\n')
 
 def main(method,cluster_num=None,alpha=None):
-    f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
-    #f ='/Users/davidgreenfield/Downloads/features_f500.csv'
+    #f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
+    f ='/Users/davidgreenfield/Downloads/features_f500.csv'
     cols=range(1,4096)
     feats =np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=(cols))
     asins = np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=([0]),dtype=str)

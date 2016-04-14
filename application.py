@@ -77,7 +77,7 @@ def submit():
     args=request.args
     if float(args['like'])==0:
         conn = redis.Redis(db=0)
-        conn.sadd(args['user'],args['asnin'])
+        conn.sadd(args['user'],args['asin'])
 
     if float(args['like'])==1:
         conn = redis.Redis(db=1)
