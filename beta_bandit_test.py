@@ -1,10 +1,10 @@
-from beta_bandit_1 import *
+from beta_bandit import *
 
 from numpy import *
 from scipy.stats import beta
 import random
 
-theta = (0.25, 0.35)
+theta = [0.25, 0.35]
 
 
 def is_conversion(title):
@@ -17,17 +17,16 @@ conversions = [0,0]
 trials = [0,0]
 
 N = 100000
-cluster_no = len(clusters)
-trials = zeros(shape=(N,cluster_no))
-successes = zeros(shape=(N,cluster_no))
+trials = zeros(shape=(N,2))
+successes = zeros(shape=(N,2))
 
 
-bb = BetaBandit(num_options=cluster_no,prior=prior)
+bb = BetaBandit(num_options=2)
 for i in range(N):
     choice = bb.get_recommendation()
     trials[choice] = trials[choice]+1
     conv = is_conversion(choice)
-    bb.add_result(choice, conv)
+    bb.add_result(choice,conv)
     trials[i] = bb.trials
     successes[i] = bb.successes
 
@@ -52,3 +51,4 @@ ylabel("CTR")
 
 legend()
 show()
+

@@ -7,6 +7,9 @@ import csv
 import random
 import redis
 import json
+import pickle
+import numpy 
+from beta_bandit import BetaBandit 
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
@@ -14,15 +17,15 @@ USERS=['Erin','Dave','Josh','Priya']
 @application.route('/')
 def homepage():
     #requires local version of csv and images
-    data=load_data('./data/boots_aws.csv')
     args=request.args
     if 'user' not in args:
         return redirect("?user="+USERS[0], code=302)
     testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
-    rand = random.choice(list(data.keys()))
+    #rand = random.choice(list(data.keys()))
+    cluster_key = bb.get_recommendation()
+    rand = random.choice(cluster_dict[cluster_key])
     impath=data[rand]
-
-    return render_template('index.html',string=impath['url'],asin=rand,users=USERS,activeuser=args['user'])
+    return render_template('index.html',string=impath['url'],asin=rand,users=USERS,activeuser=args['user'],cluster=cluster_key)
 
 
 def get_image(path):
@@ -49,7 +52,6 @@ def choices():
     conn = redis.Redis(db=1)
 
     likes = conn.smembers(args['user'])
-    print likes
     links=[data[x]['url'] for x in likes]
 
     return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
@@ -75,6 +77,7 @@ def suggestions():
 @application.route('/submit')
 def submit():
     args=request.args
+    bb.add_result(int(args['cluster']),int(args['like']))
     if float(args['like'])==0:
         conn = redis.Redis(db=0)
         conn.sadd(args['user'],args['asin'])
@@ -87,5 +90,9 @@ def submit():
     return json.dumps({"stored":True})
 
 if __name__ == '__main__':
-
+    data=load_data('./data/boots_aws.csv')
+    f = open("outputs/clusters.txt","r")
+    cluster_dict = pickle.load(f)
+    n = len(cluster_dict.keys())
+    bb = BetaBandit(num_options=int(n))
     application.run(debug=True)
