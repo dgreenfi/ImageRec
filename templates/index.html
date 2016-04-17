@@ -11,10 +11,11 @@
     <script>
         var base='http://127.0.0.1:5000/submit?'
         var asin='{{asin}}'
+        var cluster='{{cluster}}'
         function like(theUrl)
             {
                 var xmlHttp = new XMLHttpRequest();
-                var urlwargs=theUrl.concat("&like=1&","asin=",asin);
+                var urlwargs=theUrl.concat("&like=1&","asin=",asin,"&cluster=",cluster);
                 //window.alert(urlwargs);
                 getHttp(urlwargs);
                 refreshPage();
@@ -22,7 +23,7 @@
         function dislike(theUrl)
             {
                 var xmlHttp = new XMLHttpRequest();
-                var urlwargs=theUrl.concat("&like=0&","asin=",asin);
+                var urlwargs=theUrl.concat("&like=0&","asin=",asin,"&cluster=",cluster);
                 getHttp(urlwargs);
                 refreshPage();
 
@@ -79,6 +80,6 @@
     <button onclick="dislike('http://127.0.0.1:5000/submit?user={{activeuser}}')">Dislike</button>
     <br>
     <br>
-
+ Cluster: {{cluster}}
 </body>
 </html>
