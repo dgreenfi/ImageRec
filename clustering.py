@@ -5,6 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn import cluster
 from sklearn import mixture
 import csv
+import pickle
 
 def load_data(path):
     lookup_dict={}
@@ -40,12 +41,7 @@ def main():
     k_means=cluster.KMeans(n_clusters=cluster_num)
     k_means.fit(feats)
     clusters=[]
-
-
-
     groups={}
-
-
     data=load_data('./data/boots_aws.csv')
 
     for i in range(0,cluster_num):
@@ -54,8 +50,18 @@ def main():
         clusters.append(ids)
         links=[data[x]['url'] for x in ids]
         create_html(links,"templates/groups/group"+str(i)+".html")
+    clust_dict={}
+    for i,c in enumerate(clusters):
+        for item in c:
+            clust_dict[item]=i
 
-    output_clusters(clusters,"outputs/clusters.csv")
+    #print clust_dict
+    f=open("outputs/clusters.txt",'w+')
+    pickle.dump(clust_dict,f)
+    f.close()
+    #f2=open("outputs/clusters.txt",'r')
+    #new=pickle.load(f2)
+    #print new
 
 
 if __name__ == '__main__':
