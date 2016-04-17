@@ -52,10 +52,9 @@ def main():
         create_html(links,"templates/groups/group"+str(i)+".html")
     clust_dict={}
     for i,c in enumerate(clusters):
-        for item in c:
-            clust_dict[item]=i
+        clust_dict[i]=c
 
-    #print clust_dict
+
     f=open("outputs/clusters.txt",'w+')
     pickle.dump(clust_dict,f)
     f.close()
