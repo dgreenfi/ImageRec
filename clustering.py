@@ -5,7 +5,14 @@ from sklearn.cluster import KMeans
 from sklearn.mixture import VBGMM, DPGMM
 from sklearn import cluster
 from sklearn import mixture
+import networkx as nx
 import csv
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy
+
+
+MAKE_GRAPH=1
 
 def load_data(path):
     lookup_dict={}
@@ -31,18 +38,21 @@ def output_clusters(clusters,fname):
     for item in clusters:
         file.write(','.join(item)+'\n')
 
-def main(method,cluster_num=None,alpha=None):
-    #f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
-    f ='/Users/davidgreenfield/Downloads/features_f500.csv'
+def main(method,cluster_num=25,alpha=.5):
+    f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
+    #f ='/Users/davidgreenfield/Downloads/features_f500.csv'
     cols=range(1,4096)
     feats =np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=(cols))
     asins = np.loadtxt(open(f,"rb"),delimiter=",",skiprows=1,usecols=([0]),dtype=str)
     if method == 'kmeans':
         k_means=cluster.KMeans(n_clusters=cluster_num)
         k_means.fit(feats)
-        y = kmeans.labels_
+        y = k_means.labels_
+        if MAKE_GRAPH==1:
+            print "hello 1"
+            create_graph(k_means)
     elif method == 'GMM_VB':
-        gmm_vb = VBGMM.fit(feats,n_components=50,alpha=alpha)
+        gmm_vb = VBGMM.fit(feats,n_components=50,alpha=.5)
         y = gmm_vb.predict(feats)
         cluster_no = len(np.unique(y))
     elif method == 'GMM_DP':
@@ -66,5 +76,36 @@ def main(method,cluster_num=None,alpha=None):
     output_clusters(clusters,"outputs/clusters.csv")
 
 
+def create_graph(k_means):
+    """
+    could be used with an object with a .cluster_centers_ attribute that returns the center features of each cluster
+
+    """
+    centers=k_means.cluster_centers_
+    G=nx.Graph()
+    labels={}
+    dist_mat=np.zeros((len(centers),len(centers)))
+    for i,clust in enumerate(centers):
+        for y in range(0,len(centers)):
+            dist=scipy.spatial.distance.euclidean(centers[i],centers[y])
+            if i==y:
+                dist=10000000
+            dist_mat[i][y]=dist
+        labels[i]=i
+
+    for i,row in enumerate(dist_mat):
+        for neighbor in row.argsort()[:5]:
+            G.add_edge(i,neighbor)
+
+    pos = nx.spring_layout(G,scale=4)
+
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'),label=True)
+    nx.draw_networkx_edges(G, pos, edgelist=G.edges(), edge_color='r', arrows=False)
+    nx.draw_networkx_labels(G,pos,labels,font_size=16)
+
+    plt.show()
+    #create a graph in networkX
+
+
 if __name__ == '__main__':
-    main()
+    main('kmeans')
