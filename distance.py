@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import (
 )
 
 
-from application import load_data
+#from application import load_data
 from random import random
 import redis
 
@@ -31,9 +31,10 @@ def dist_pd(user_file,method):
 	return dists_df
 	
 
-def get_sims(products_like,dists_df,larger_is_closer=False):
+def get_sims(products_like,dists_df,n=0,larger_is_closer=True):
 	dist_cluster = dists_df.loc[:, [c for c in dists_df.columns if c in products_like]]
 	p = dist_cluster.sum(axis=1)
+	print larger_is_closer
 	p = p.order(ascending=larger_is_closer)
 	#return p[p.index.isin(products_like)==False]
 	return p.index[p.index.isin(products_like)==False]
@@ -53,15 +54,23 @@ def calc_sim(cluster_dict,dist_df,likes,cluster_no,n=0):
 		return random.choice(cluster_dict[cluster_no])
 	else:
 		dists_df = dist_df[dist_df.index.isin(cluster_dict[cluster_no])]
-		p = get_sims(list(likes),dists_df)
+		p = get_sims(list(likes),dists_df,larger_is_closer=True)
 		return p[n]
 
+def calc_sim_rec(dist_df,likes,n=0,larger_is_closer=True):
+	if likes == []:
+		return random.choice(dist_df.index)
+	else:
+		#dists_df = dist_df[dist_df.index.isin(cluster_dict)]
+		p = get_sims(list(likes),dist_df,n,larger_is_closer)
+		return p[0:n]
 
 
 if __name__ == "__main__":
-	# dists_df = dist_pd('/Users/erinmcmahon/Downloads/boots_features_dedup.csv',cosine_similarity)
-	# print(dists_df)
-	# pickle.dump(dists_df,open('./data/dist_df.txt','w+'))
+	#dists_df = dist_pd('/Users/davidgreenfield/Downloads/features_women.csv',cosine_similarity)
+	#print(dists_df)
+	#pickle.dump(dists_df,open('./data/dist_df.txt','w+'))
+	#quit()
 	f = open('./outputs/clusters.txt','r')
 	cluster_dict  = pickle.load(f)
 	f = open('./data/dist_df.txt','r')
