@@ -38,7 +38,7 @@ def output_clusters(clusters,fname):
     for item in clusters:
         file.write(','.join(item)+'\n')
 
-def main(method,cluster_num=25,alpha=.5):
+def main(method,cluster_num=30,alpha=.5):
     f ='/Users/davidgreenfield/Downloads/features_csv_tmp.csv'
     #f ='/Users/davidgreenfield/Downloads/features_f500.csv'
     cols=range(1,4096)
@@ -85,25 +85,43 @@ def create_graph(k_means):
     G=nx.Graph()
     labels={}
     dist_mat=np.zeros((len(centers),len(centers)))
+    dist_mat_cos=np.zeros((len(centers),len(centers)))
+    all_dist=[]
     for i,clust in enumerate(centers):
         for y in range(0,len(centers)):
             dist=scipy.spatial.distance.euclidean(centers[i],centers[y])
+            dist_cos=scipy.spatial.distance.cosine(centers[i],centers[y])
             if i==y:
                 dist=10000000
             dist_mat[i][y]=dist
-        labels[i]=i
+            dist_mat_cos[i][y]=dist_cos
+            all_dist.append(dist_cos)
+
 
     for i,row in enumerate(dist_mat):
-        for neighbor in row.argsort()[:5]:
+        for neighbor in row.argsort()[:0]:
             G.add_edge(i,neighbor)
 
-    pos = nx.spring_layout(G,scale=4)
+    for i,row in enumerate(dist_mat_cos):
+        for neighbor in row.argsort()[:4]:
+            if row[neighbor]>0:
+                G.add_edge(i,neighbor,weight=1/row[neighbor])
 
+    #for i,row in enumerate(dist_mat_cos):
+    #    for y,pt in enumerate(row):
+    #        if pt>np.percentile(all_dist,90):
+    #            G.add_edge(i,y)
+
+    print G.nodes()
+    pos = nx.spring_layout(G,scale=4)
+    for lab in G.nodes():
+        labels[lab]=lab
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'),label=True)
     nx.draw_networkx_edges(G, pos, edgelist=G.edges(), edge_color='r', arrows=False)
     nx.draw_networkx_labels(G,pos,labels,font_size=16)
-
-    plt.show()
+    plt.savefig('graph.png')
+    #plt.show()
+    return
     #create a graph in networkX
 
 
