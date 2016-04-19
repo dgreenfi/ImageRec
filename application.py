@@ -67,7 +67,7 @@ def groupview():
     if 'groupnum' not in args:
         return redirect("groupview?user="+USERS[0]+"&groupnum=1", code=302)
     num=args['groupnum']
-    groups=["Group "+ str(x) for x in range(1,25)]
+    groups=["Group "+ str(x) for x in range(0,25)]
     return render_template('./groups/group'+str(num)+'.html',users=USERS,activeuser=args['user'],showgroups="Yes",groups=groups)
 
 @application.route('/suggestions')
