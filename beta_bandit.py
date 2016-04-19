@@ -19,7 +19,6 @@ class BetaBandit(object):
         sampled_theta = []
         for i in range(self.num_options):
             #Construct beta distribution for posterior
-            print(self.prior[i]+self.successes[i],self.prior[i]+2+self.trials[i]-self.successes[i])
             dist = beta(self.prior[i]+self.successes[i],
                         self.prior[i]+self.trials[i]-self.successes[i])
             #Draw sample from beta distribution

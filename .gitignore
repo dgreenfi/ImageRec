@@ -1,3 +1,5 @@
 .DS_Store
 *.pyc
 __pycache__/*
+outputs/clusters.csv
+data/dist_df.txt
