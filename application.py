@@ -78,8 +78,21 @@ def suggestions():
     args=request.args
     if 'user' not in args:
         return redirect("suggestions?user="+USERS[0], code=302)
-    return render_template('suggestions.html',users=USERS,activeuser=args['user'])
+    conn = redis.Redis(db=1)
+    likes = conn.smembers(args['user'])
+    print likes
+    recs=calc_sim_rec(dist_df,likes,10,False)
+    recs=list(recs)
+    rec_urls=[data[boot]['url'] for boot in recs]
+    return render_template('suggestions.html',users=USERS,activeuser=args['user'],recs=rec_urls)
 
+@application.route('/flush')
+def flush():
+    conn = redis.Redis(db=0)
+    conn2 = redis.Redis(db=1)
+    conn.flushdb()
+    conn2.flushdb()
+    return redirect("/?user="+USERS[0], code=302)
 
 @application.route('/labeler')
 def labeler():

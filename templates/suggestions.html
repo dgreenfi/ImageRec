@@ -39,7 +39,9 @@
     </nav>
 </head>
 <body align="center">
-I <strong>SUGGEST</strong> you build this page
 
+{% for rec in recs%}
+    <img src="{{rec}}"></img>
+{% endfor %}
 </body>
 </html>
