@@ -10,6 +10,7 @@ import json
 import pickle
 import numpy 
 from beta_bandit import BetaBandit 
+from distance import *
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
@@ -26,9 +27,11 @@ def homepage():
     testfolder='/Users/davidgreenfield/Downloads/pics_boots/'
     #rand = random.choice(list(data.keys()))
     cluster_key = bb.get_recommendation()
-    rand = random.choice(cluster_dict[cluster_key])
-    impath=data[rand]
-    return render_template('index.html',string=impath['url'],asin=rand,users=USERS,activeuser=args['user'],cluster=cluster_key)
+    conn = redis.Redis(db=1)
+    likes = conn.smembers(args['user'])
+    boot = calc_sim(cluster_dict,dist_df,likes,cluster_key)
+    impath=data[boot]
+    return render_template('index.html',string=impath['url'],asin=boot,users=USERS,activeuser=args['user'],cluster=cluster_key)
 
 
 def get_image(path):
@@ -119,6 +122,8 @@ if __name__ == '__main__':
     data=load_data('./data/boots_aws.csv')
     f = open("outputs/clusters.txt","r")
     cluster_dict = pickle.load(f)
+    f = open('./data/dist_df.txt','r')
+    dist_df  = pickle.load(f)
     n = len(cluster_dict.keys())
     bb = BetaBandit(num_options=int(n))
     application.run(debug=True)

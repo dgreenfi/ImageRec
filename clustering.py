@@ -50,7 +50,7 @@ def main(method,cluster_num=30,alpha=.5):
         y = k_means.labels_
         if MAKE_GRAPH==1:
             print "hello 1"
-            create_graph(k_means)
+        create_graph(k_means)
     elif method == 'GMM_VB':
         gmm_vb = VBGMM.fit(feats,n_components=50,alpha=.5)
         y = gmm_vb.predict(feats)
@@ -79,7 +79,6 @@ def main(method,cluster_num=30,alpha=.5):
 def create_graph(k_means):
     """
     could be used with an object with a .cluster_centers_ attribute that returns the center features of each cluster
-
     """
     centers=k_means.cluster_centers_
     G=nx.Graph()

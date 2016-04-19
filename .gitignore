@@ -2,4 +2,6 @@
 .idea/
 groups/*
 *.pyc
-
+__pycache__/*
+outputs/clusters.csv
+data/dist_df.txt
