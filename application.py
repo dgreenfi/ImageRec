@@ -29,7 +29,9 @@ def homepage():
     cluster_key = bb.get_recommendation()
     conn = redis.Redis(db=1)
     likes = conn.smembers(args['user'])
-    boot = calc_sim(cluster_dict,dist_df,likes,cluster_key)
+    conn_ = redis.Redis(db=0)
+    dislikes = conn.smembers(args['user'])
+    boot = calc_sim(dist_df,likes,dislikes,cluster_dict=cluster_dict,cluster_no=cluster_key)
     impath=data[boot]
     return render_template('index.html',string=impath['url'],asin=boot,users=USERS,activeuser=args['user'],cluster=cluster_key)
 
