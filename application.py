@@ -82,11 +82,18 @@ def suggestions():
         return redirect("suggestions?user="+USERS[0], code=302)
     conn = redis.Redis(db=1)
     likes = conn.smembers(args['user'])
-    print likes
-    recs=calc_sim_rec(dist_df,likes,10,False)
+    conn_ = redis.Redis(db=0)
+    dislikes = conn_.smembers(args['user'])
+
+    recs=calc_sim_rec(dist_df,likes,dislikes,15,False)
     recs=list(recs)
     rec_urls=[data[boot]['url'] for boot in recs]
-    return render_template('suggestions.html',users=USERS,activeuser=args['user'],recs=rec_urls)
+    clusters=[]
+    for rec in recs:
+        for key in cluster_dict:
+            if rec in cluster_dict[key]:
+                clusters.append(key)
+    return render_template('suggestions.html',users=USERS,activeuser=args['user'],recs=rec_urls,clusters=clusters)
 
 @application.route('/flush')
 def flush():

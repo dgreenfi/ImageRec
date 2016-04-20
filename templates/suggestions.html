@@ -41,7 +41,7 @@
 <body align="center">
 
 {% for rec in recs%}
-    <img src="{{rec}}"></img>
+    <img src="{{rec}}" height='200' width='200'></img>{{ clusters[ loop.index-1]}}
 {% endfor %}
 </body>
 </html>

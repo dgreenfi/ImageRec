@@ -55,12 +55,12 @@ def calc_sim(dist_df,likes,dislikes,cluster_dict=None,cluster_no=None,n=0):
 		p = get_sims(list(likes),list(dislikes),dists_df,larger_is_closer=True)
 		return p[n]
 
-def calc_sim_rec(dist_df,likes,n=0,larger_is_closer=True):
+def calc_sim_rec(dist_df,likes,dislikes,n=0,larger_is_closer=True):
 	if likes == []:
 		return random.choice(dist_df.index)
 	else:
 		#dists_df = dist_df[dist_df.index.isin(cluster_dict)]
-		p = get_sims(list(likes),dist_df,n,larger_is_closer)
+		p = get_sims(list(likes),list(dislikes),dist_df,n,larger_is_closer)
 		return p[0:n]
 
 
