@@ -9,8 +9,11 @@ import redis
 import json
 import pickle
 import numpy 
+
 from beta_bandit import BetaBandit 
 from distance import *
+from classifier import *
+
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
@@ -31,9 +34,28 @@ def homepage():
     likes = conn.smembers(args['user'])
     conn_ = redis.Redis(db=0)
     dislikes = conn_.smembers(args['user'])
-    boot = calc_sim(dist_df,likes,dislikes,cluster_dict=cluster_dict,cluster_no=cluster_key)
-    impath=data[boot]
-    return render_template('index.html',string=impath['url'],asin=boot,users=USERS,activeuser=args['user'],cluster=cluster_key)
+
+
+    #### JOSH
+    pickle.dump(likes, open('/root/classifier/likes', 'wb'))
+    pickle.dump(dislikes, open('/root/classifier/dislikes', 'wb'))
+
+    ic.extract_previous(args['user'])
+    ic.update_unseen()
+    candidates = ic.get_candidates_cluster(cluster_key)
+
+    if len(likes) == 0 or len(dislikes) == 0:
+        boot = calc_sim(dist_df,likes,dislikes,cluster_dict=cluster_dict,cluster_no=cluster_key)
+    else:
+        if len(likes) + len(dislikes) % 10 == 0 \
+          or ic.model is None:
+            ic.batch_train(likes, dislikes)
+        else:
+            ic.online_train()
+        boot = ic.score_unseen(ic.get_candidates_cluster(cluster_key))[0] 
+
+    impath=data.loc[boot, 'imUrl']
+    return render_template('index.html',string=impath,asin=boot,users=USERS,activeuser=args['user'],cluster=cluster_key)
 
 
 def get_image(path):
@@ -53,13 +75,12 @@ def load_data(path):
 
 @application.route('/userchoices')
 def choices():
-    data=load_data('./data/boots_aws.csv')
     args=request.args
     if 'user' not in args:
         return redirect("userchoices?user="+USERS[0], code=302)
     conn = redis.Redis(db=1)
     likes = conn.smembers(args['user'])
-    links=[data[x]['url'] for x in likes]
+    links=[data.loc[x, 'imUrl'] for x in likes]
 
     return render_template('choices.html',vals=links,users=USERS,activeuser=args['user'])
 
@@ -85,9 +106,18 @@ def suggestions():
     conn_ = redis.Redis(db=0)
     dislikes = conn_.smembers(args['user'])
 
-    recs=calc_sim_rec(dist_df,likes,dislikes,15,False)
-    recs=list(recs)
-    rec_urls=[data[boot]['url'] for boot in recs]
+    ## JOSH
+    if len(likes) == 0 or len(dislikes) == 0:
+        recs=calc_sim_rec(dist_df,likes,dislikes,15,False)
+        recs=list(recs)
+    else:
+        try:
+        	recs = ic.score_unseen(ic.get_candidates_cluster(), 15)
+	except:
+		recs=calc_sim_rec(dist_df,likes,dislikes,15,False)
+                recs=list(recs)
+
+    rec_urls=[data.loc[boot, 'imUrl'] for boot in recs]
     clusters=[]
     for rec in recs:
         for key in cluster_dict:
@@ -111,9 +141,9 @@ def labeler():
 
     data=load_data('./data/boots_aws.csv')
     rand = random.choice(list(data.keys()))
-    impath=data[rand]
+    impath=data.loc[rand, 'imUrl']
 
-    return render_template('labeler.html',users=USERS,activeuser=args['user'],string=impath['url'],asin=rand,labels=LABS)
+    return render_template('labeler.html',users=USERS,activeuser=args['user'],string=impath,asin=rand,labels=LABS)
 
 @application.route('/submit')
 def submit():
@@ -126,7 +156,10 @@ def submit():
     if float(args['like'])==1:
         conn = redis.Redis(db=1)
         conn.sadd(args['user'],args['asin'])
-
+    
+    ## for classifier
+    with open('/root/classifier/{0}.txt'.format(args['user']),'w') as w:
+        w.write('{0}\t{1}'.format(args['asin'], args['like']))
 
     return json.dumps({"stored":True})
 
@@ -141,11 +174,21 @@ def submit_label():
 
 
 if __name__ == '__main__':
-    data=load_data('./data/boots_aws.csv')
-    f = open("outputs/clusters.txt","r")
+    data = pd.read_csv('./data/metadata_women_042016.csv',
+                    index_col = 'asin') 
+    f = open("outputs/clusters.txt","rb")
     cluster_dict = pickle.load(f)
-    f = open('./data/dist_df.txt','r')
+    f = open('./data/dist_df.txt','rb')
     dist_df  = pickle.load(f)
+    
+    women_asin = data.index.values
+    dist_df = dist_df.loc[women_asin, women_asin]    
+
     n = len(cluster_dict.keys())
     bb = BetaBandit(num_options=int(n))
-    application.run(debug=True)
+
+    features = pd.read_csv('./data/features_women.csv',
+			index_col = 'asin')
+    
+    ic = IncrementalClassifier(features, cluster_dict)
+    application.run(host='0.0.0.0', debug=True, port=5555)
