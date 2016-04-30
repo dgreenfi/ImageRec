@@ -9,7 +9,9 @@ from sklearn.metrics.pairwise import (
 #from application import load_data
 from random import random
 import redis
-
+"""
+Creates similarity matrix for application to load
+"""
 
 
 def pull_data(user_file):

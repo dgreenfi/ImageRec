@@ -17,13 +17,15 @@ from classifier import *
 application = Flask(__name__)
 
 USERS=['Erin','Dave','Josh','Priya']
+### not used, only used for some classification testing
 LABS=['Fuzzy','Leather','Suede','Cowboy','Brown','Black','Red','Blue','Pink','Grey','Shiny',\
       'Cowboy','Checkered','Ruffled','Bootie','Thick Outsole','Hiking','Spotted',\
       'Zebra','Clasps','High Heel','Glossy',"Rain Boots","Sneaker Boot","Crazy Color","Crazy Pattern","Knee High","Moon Boot"]
+####
 
 @application.route('/')
 def homepage():
-    #requires local version of csv and images
+    #Home path requires local version of csv and images
     args=request.args
     if 'user' not in args:
         return redirect("?user="+USERS[0], code=302)
@@ -44,6 +46,7 @@ def homepage():
     ic.update_unseen()
     candidates = ic.get_candidates_cluster(cluster_key)
 
+    #logic for empty set vs set with process
     if len(likes) == 0 or len(dislikes) == 0:
         boot = calc_sim(dist_df,likes,dislikes,cluster_dict=cluster_dict,cluster_no=cluster_key)
     else:
@@ -74,6 +77,7 @@ def load_data(path):
     return lookup_dict
 
 @application.route('/userchoices')
+#diplay user choices page
 def choices():
     args=request.args
     if 'user' not in args:
@@ -86,6 +90,7 @@ def choices():
 
 
 @application.route('/groupview')
+#diplay group images, based on existing HTML template pages
 def groupview():
     args=request.args
     if 'user' not in args:
@@ -97,6 +102,7 @@ def groupview():
     return render_template('./groups/group'+str(num)+'.html',users=USERS,activeuser=args['user'],showgroups="Yes",groups=groups)
 
 @application.route('/suggestions')
+#show suggestions page
 def suggestions():
     args=request.args
     if 'user' not in args:
@@ -126,6 +132,7 @@ def suggestions():
     return render_template('suggestions.html',users=USERS,activeuser=args['user'],recs=rec_urls,clusters=clusters)
 
 @application.route('/flush')
+# reset databases
 def flush():
     conn = redis.Redis(db=0)
     conn2 = redis.Redis(db=1)
@@ -134,6 +141,7 @@ def flush():
     return redirect("/?user="+USERS[0], code=302)
 
 @application.route('/labeler')
+# test application for labeling for classification - not used in core project
 def labeler():
     args=request.args
     if 'user' not in args:
@@ -146,6 +154,7 @@ def labeler():
     return render_template('labeler.html',users=USERS,activeuser=args['user'],string=impath,asin=rand,labels=LABS)
 
 @application.route('/submit')
+# API route for submitting choices
 def submit():
     args=request.args
     bb.add_result(int(args['cluster']),int(args['like']))
@@ -164,6 +173,7 @@ def submit():
     return json.dumps({"stored":True})
 
 @application.route('/submitLabel')
+# for label classifier test
 def submit_label():
     args=request.args
     label=args['label']
@@ -174,19 +184,17 @@ def submit_label():
 
 
 if __name__ == '__main__':
+    # preload data distance matrix and clusters  for faster run time
     data = pd.read_csv('./data/metadata_women_042016.csv',
                     index_col = 'asin') 
     f = open("outputs/clusters.txt","rb")
     cluster_dict = pickle.load(f)
     f = open('./data/dist_df.txt','rb')
     dist_df  = pickle.load(f)
-    
     women_asin = data.index.values
-    dist_df = dist_df.loc[women_asin, women_asin]    
-
+    dist_df = dist_df.loc[women_asin, women_asin]
     n = len(cluster_dict.keys())
     bb = BetaBandit(num_options=int(n))
-
     features = pd.read_csv('./data/features_women.csv',
 			index_col = 'asin')
     
