@@ -3,6 +3,10 @@ import numpy as np
 from sklearn import svm
 import json
 
+"""
+Test scripts for classifying based on labels
+"""
+
 def top_labels(labels,probabilities,n):
     ind=range(0,probabilities.size)
     #sort by index

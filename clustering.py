@@ -13,7 +13,7 @@ import scipy
 
 
 MAKE_GRAPH=1
-
+## Seperate Clustering Script
 def load_data(path):
     lookup_dict={}
     with open(path, 'rb') as csvfile:
@@ -23,6 +23,7 @@ def load_data(path):
     return lookup_dict
 
 def create_html(links,fname):
+#creates HTML renditions for display in app
     file=open(fname,"w+")
     file.write("{% extends 'basetemp.html' %}\n \
         {% block head %}\n \
@@ -78,7 +79,7 @@ def main(method,cluster_num=30,alpha=.5):
 
 def create_graph(k_means):
     """
-    could be used with an object with a .cluster_centers_ attribute that returns the center features of each cluster
+    Testing graph structure of cluster centers based on N nearest neighbors
     """
     centers=k_means.cluster_centers_
     G=nx.Graph()
